@@ -269,13 +269,12 @@ async def analyze(request):
     pred_class,pred_idx,outputs = learn.predict(img)
     idxnew = np.argsort(outputs)
     cat = classes
-    i = 1
-    while outputs[idxnew[-i].item()].item() > 0.05 and i < 5:
-      wkeit = round(100*outputs[idxnew[-i].item()].item(),2)
-      prediction = cat[idxnew[-i].item()]
-      return JSONResponse({'result': str(prediction, wkeit)})
-      i +=1
-
+    prediction = cat[idxnew[-1].item()] + ' ' + str(round(100*outputs[idxnew[-1].item()].item(),2)) + '% / ' + \
+cat[idxnew[-2].item()] + ' ' + str(round(100*outputs[idxnew[-2].item()].item(),2)) + '% / ' + \
+cat[idxnew[-3].item()] + ' ' + str(round(100*outputs[idxnew[-3].item()].item(),2)) + '% / ' + \
+cat[idxnew[-4].item()] + ' ' + str(round(100*outputs[idxnew[-4].item()].item(),2)) + '% / '
+    return JSONResponse({'result': str(prediction)})
+    
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
