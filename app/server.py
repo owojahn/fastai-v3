@@ -273,7 +273,7 @@ async def analyze(request):
     while outputs[idxnew[-i].item()].item() > 0.05 and i < 5:
       wkeit = round(100*outputs[idxnew[-i].item()].item(),2)
       prediction = cat[idxnew[-i].item()]
-      return JSONResponse({'result': str(prediction),'wkeit': str(wkeit)})
+      return JSONResponse({'result': str(prediction, wkeit)})
       i +=1
 
 
