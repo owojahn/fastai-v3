@@ -264,8 +264,18 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    # prediction = learn.predict(img)[0]
+    # return JSONResponse({'result': str(prediction)})
+    pred_class,pred_idx,outputs = learn.predict(img)
+    idxnew = np.argsort(outputs)
+    cat = classes
+    i = 1
+    while outputs[idxnew[-i].item()].item() > 0.05 and i < 5:
+      wkeit = round(100*outputs[idxnew[-i].item()].item(),2)
+      prediction = cat[idxnew[-i].item()]
+      return JSONResponse({'result': str(prediction)})
+      return JSONResponse({'wkeit': str(wkeit)})
+      i +=1
 
 
 if __name__ == '__main__':
